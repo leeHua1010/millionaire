@@ -152,9 +152,9 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# Ohter
-yield_data
-roe_data
+# Mac
+
+.DS_Store
 
 
 # PyCharm
