@@ -4,12 +4,15 @@ import baostock as bs
 import pandas as pd
 import time_utils as tu
 
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299'
+}
 
 def get_stock_codes_from_index(index_code):
     url = f"https://csi-web-dev.oss-cn-shanghai-finance-1-pub.aliyuncs.com/static/html/csindex/public/uploads/file/autofile/cons/{index_code}cons.xls"
 
     file_path = f"{index_code}cons.xls"
-    res = requests.get(url)
+    res = requests.get(url,headers=headers)
 
     open(file_path, "wb").write(res.content)
 
@@ -176,3 +179,25 @@ def download_stocks_yield_data(index_code, save_dir="./yield_data"):
         os.mkdir(save_dir)
 
     yield_df.to_csv(f"{save_dir}/{index_code}_yield_data.csv")
+
+
+def record_fear_data(save_dir='./feat_data',filename='fear_data.csv'):
+    res = requests.get('https://api.jiucaishuo.com/v2/kjtl/getbasedata',headers=headers).json();
+    data = res['data']
+
+    if not os.path.exists(save_dir):
+        os.mkdir(save_dir)
+
+    today = tu.now.weekday()
+    if not today == 5 or today == 6:
+        file_path = os.path.join(save_dir, filename)
+        columns = ['date','num','status_str']
+        if(os.path.isfile(file_path)):
+            fear_df = pd.read_csv(file_path)
+            fear_df.loc[len(fear_df)]=[tu.current_date,data['num'],data['status_str']]
+            fear_df.to_csv(file_path,index=False)
+        else:
+            data_list = []
+            data_list.append([tu.current_date,data['num'],data['status_str']])
+            fear_df = pd.DataFrame(data_list,columns=columns)
+            fear_df.to_csv(file_path,index=False)

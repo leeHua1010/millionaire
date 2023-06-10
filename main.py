@@ -12,4 +12,6 @@ for index_code in index_codes:
 
   stock_x.download_stocks_yield_data(index_code)
 
+stock_x.record_fear_data();
+
 bs.logout()
