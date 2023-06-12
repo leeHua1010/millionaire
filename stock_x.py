@@ -189,7 +189,7 @@ def record_fear_data(save_dir='./feat_data',filename='fear_data.csv'):
         os.mkdir(save_dir)
 
     today = tu.now.weekday()
-    if not today == 5 or today == 6:
+    if not today == 5 or not today == 6:
         file_path = os.path.join(save_dir, filename)
         columns = ['date','num','status_str']
         if(os.path.isfile(file_path)):
