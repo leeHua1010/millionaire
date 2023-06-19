@@ -4,9 +4,6 @@ on:
   schedule:
     - cron: "0 13 * * *"
 
-env:
-  TZ: Asia/Shanghai
-
 jobs:
   millionaire_go:
     runs-on: ubuntu-latest

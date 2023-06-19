@@ -181,7 +181,7 @@ def download_stocks_yield_data(index_code, save_dir="./yield_data"):
     yield_df.to_csv(f"{save_dir}/{index_code}_yield_data.csv")
 
 
-def record_fear_data(save_dir='./feat_data',filename='fear_data.csv'):
+def record_fear_data(save_dir='./fear_data',filename='fear_data.csv'):
     res = requests.get('https://api.jiucaishuo.com/v2/kjtl/getbasedata',headers=headers).json();
     data = res['data']
 
@@ -189,7 +189,7 @@ def record_fear_data(save_dir='./feat_data',filename='fear_data.csv'):
         os.mkdir(save_dir)
 
     today = tu.now.weekday()
-    if not today == 5 or not today == 6:
+    if not today == 5 and not today == 6:
         file_path = os.path.join(save_dir, filename)
         columns = ['date','num','status_str']
         if(os.path.isfile(file_path)):
