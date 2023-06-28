@@ -188,16 +188,14 @@ def record_fear_data(save_dir='./fear_data',filename='fear_data.csv'):
     if not os.path.exists(save_dir):
         os.mkdir(save_dir)
 
-    today = tu.now.weekday()
-    if not today == 5 and not today == 6:
-        file_path = os.path.join(save_dir, filename)
-        columns = ['date','num','status_str']
-        if(os.path.isfile(file_path)):
-            fear_df = pd.read_csv(file_path)
-            fear_df.loc[len(fear_df)]=[tu.current_date,data['num'],data['status_str']]
-            fear_df.to_csv(file_path,index=False)
-        else:
-            data_list = []
-            data_list.append([tu.current_date,data['num'],data['status_str']])
-            fear_df = pd.DataFrame(data_list,columns=columns)
-            fear_df.to_csv(file_path,index=False)
+    file_path = os.path.join(save_dir, filename)
+    columns = ['date','num','status_str']
+    if(os.path.isfile(file_path)):
+        fear_df = pd.read_csv(file_path)
+        fear_df.loc[len(fear_df)]=[tu.current_date,data['num'],data['status_str']]
+        fear_df.to_csv(file_path,index=False)
+    else:
+        data_list = []
+        data_list.append([tu.current_date,data['num'],data['status_str']])
+        fear_df = pd.DataFrame(data_list,columns=columns)
+        fear_df.to_csv(file_path,index=False)

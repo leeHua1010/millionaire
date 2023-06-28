@@ -2,7 +2,7 @@ import baostock as bs
 import stock_x
 import os
 
-index_codes = ['H30094','931468','931056']
+index_codes = ['000300','H30094','931468','931056']
 
 bs.login()
 
