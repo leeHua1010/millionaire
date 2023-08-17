@@ -179,23 +179,3 @@ def download_stocks_yield_data(index_code, save_dir="./yield_data"):
         os.mkdir(save_dir)
 
     yield_df.to_csv(f"{save_dir}/{index_code}_yield_data.csv")
-
-
-def record_fear_data(save_dir='./fear_data',filename='fear_data.csv'):
-    res = requests.get('https://api.jiucaishuo.com/v2/kjtl/getbasedata',headers=headers).json();
-    data = res['data']
-
-    if not os.path.exists(save_dir):
-        os.mkdir(save_dir)
-
-    file_path = os.path.join(save_dir, filename)
-    columns = ['date','num','status_str']
-    if(os.path.isfile(file_path)):
-        fear_df = pd.read_csv(file_path)
-        fear_df.loc[len(fear_df)]=[tu.current_date,data['num'],data['status_str']]
-        fear_df.to_csv(file_path,index=False)
-    else:
-        data_list = []
-        data_list.append([tu.current_date,data['num'],data['status_str']])
-        fear_df = pd.DataFrame(data_list,columns=columns)
-        fear_df.to_csv(file_path,index=False)
